@@ -233,7 +233,6 @@ def plot(
                 ) + ' NM'
         )
 
-
     annotate(earth, annotations)
 
     plt.subplot(1, 1, 1)
