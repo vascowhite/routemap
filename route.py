@@ -153,6 +153,7 @@ def plot(
             starttag=None,
             endtag=None
         ):
+
     annotations = []
 
     if filename[-3:] == 'rtx':
@@ -180,8 +181,10 @@ def plot(
         title = filename[:-4]
 
     if currpos:
-        currlat = pos_to_float(' '.join(currpos.split(' ')[:2]))
-        currlon = pos_to_float(' '.join(currpos.split(' ')[2:]))
+        url = 'http://wx.mqiv.com/position'
+        currpos = requests.get(url).json()['position']
+        currlat = float(currpos[0])
+        currlon = float(currpos[1])
         annotations.append((currlon, currlat, 'MQIV', 'bo'))
 
     totaldistance = calcdistance(lats, lons)
@@ -268,35 +271,55 @@ def getcardinals(minv, maxv, stepv):
 
 def main():
     parser = argparse.ArgumentParser()
+
     parser.add_argument(
-            'file',
-            type=str,
-            help='Input file. rtx or bvs files accepted.'
-        )
+        'file',
+        type=str,
+        help='Input file. rtx or bvs files accepted.'
+    )
+
     parser.add_argument(
-            '-t',
-            '--title',
-            type=str,
-            help='A custom title for the chart if the generated one is crap'
-        )
+        '-t',
+        '--title',
+        type=str,
+        help='A custom title for the chart if the generated one is crap'
+    )
+
     parser.add_argument(
-            '-o',
-            '--output',
-            type=str,
-            help='Output file. Defaults to current directory'
-            )
-    parser.add_argument('-c', '--current', type=str,
-                        help='Current position. eg -c "23 15N 45 26W"')
+        '-o',
+        '--output',
+        type=str,
+        help='Output file. Defaults to current directory'
+    )
+
+    parser.add_argument(
+        '-c',
+        '--current',
+        help='Indicate current position.',
+        action='store_true'
+    )
+
     parser.add_argument(
         '-d',
         '--display',
         help='Display image in window. Defaults to no image displayed',
         action='store_true'
     )
-    parser.add_argument('-st', '--starttag', type=str,
-                        help='A custom tag for the first position')
-    parser.add_argument('-et', '--endtag', type=str,
-                        help='A custom tag for the last position')
+
+    parser.add_argument(
+        '-st',
+        '--starttag',
+        type=str,
+        help='A custom tag for the first position'
+    )
+
+    parser.add_argument(
+        '-et',
+        '--endtag',
+        type=str,
+        help='A custom tag for the last position'
+    )
+
     args = parser.parse_args()
 
     plot(
