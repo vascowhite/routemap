@@ -151,7 +151,8 @@ def plot(
             display=None,
             custtitle=None,
             starttag=None,
-            endtag=None
+            endtag=None,
+            quality='i'
         ):
 
     annotations = []
@@ -195,9 +196,12 @@ def plot(
     midlat = (north + south) // 2
     midlon = (west + east) // 2
 
+    if quality not in ['c', 'l', 'i', 'h', 'f']:
+        quality = 'i'
+
     earth = Basemap(
         projection='merc',
-        resolution='i',
+        resolution=quality,
         lat_0=midlat,
         lon_0=midlon,
         # longitude of lower left hand corner of the desired map domain
@@ -320,6 +324,21 @@ def main():
         help='A custom tag for the last position'
     )
 
+    parser.add_argument(
+        '-q',
+        '--quality',
+        type=str,
+        help="""
+        The quality of the rendered map, defaults to -i:-
+        c = crude,
+        l = low,
+        i = intermediate,
+        h=high,
+        f=full.
+        Be warned, anything higher than -i takes a long time to render
+        """
+    )
+
     args = parser.parse_args()
 
     plot(
@@ -329,7 +348,8 @@ def main():
         display=args.display,
         custtitle=args.title,
         starttag=args.starttag,
-        endtag=args.endtag
+        endtag=args.endtag,
+        quality=args.quality
     )
 
 
