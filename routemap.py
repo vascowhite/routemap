@@ -232,7 +232,7 @@ def plot(
         earth.plot(
             lons,
             lats,
-            'r',
+            'b',
             linewidth=1,
             latlon=True,
             label='Distance = ' + '{:,}'.format(
@@ -251,7 +251,7 @@ def plot(
     else:
         outfile = filename[:-4] + '.png'
 
-    sys.stdout.write('Saved image to ' + outfile)
+    sys.stdout.write('Saved image to ' + outfile + '\n')
     plt.savefig(
         outfile,
         bbox_inches='tight',
