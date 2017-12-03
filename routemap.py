@@ -1,3 +1,6 @@
+"""
+Draw route maps from supplied files.
+"""
 import argparse
 import warnings
 import sys
@@ -14,11 +17,27 @@ GOOGLE_API_KEY = 'AIzaSyDKBY8Zhf9Lk-8ZUb1YIFtNJUCvrfvsrTs'
 
 
 def loadfile(filename):
+    """
+    Load a file to read positions from
+
+    :param filename: The path to the file
+    :type filename: str
+    :return: The contents of the file
+    :rtype: str
+    """
     with open(filename, 'r') as f:
         return f.read()
 
 
 def pos_to_float(pos):
+    """
+    Convert a lat or long to a float
+
+    :param pos: A lat or a long
+    :type pos: str
+    :return: The float version
+    :rtype: float
+    """
     # N & E are positive
     signs = {'N': '+', 'S': '-', 'E': '+', 'W': '-'}
     degrees = float(pos.split(' ')[0]) + float(pos.split(' ')[1][:-1]) / 60
@@ -26,11 +45,30 @@ def pos_to_float(pos):
 
 
 def annotconflict(annotations, annotation):
+    """
+    Checks to see if annotation is already in annotations
+    :param annotations: a list of annotations
+    :type annotations: list
+    :param annotation: an annotation
+    :type annotation: list
+    :return: True if annotation is already in the list, otherwise False
+    :rtype: bool
+    """
     positions = [(anot[0], anot[1]) for anot in annotations]
     return (annotation[0], annotation[1]) in positions
 
 
 def calcdistance(latitudes, longitudes):
+    """
+    Calculate the distance along the route.
+
+    :param latitudes:
+    :type latitudes: list
+    :param longitudes:
+    :type longitudes: list
+    :return:
+    :rtype: float
+    """
     positions = []
     distances = []
 
@@ -48,7 +86,13 @@ def calcdistance(latitudes, longitudes):
 
 
 def parsertx(rtx):
-
+    """
+    Parse a rtx file
+    :param rtx:
+    :type rtx: str
+    :return: a list of positions and annotations
+    :rtype: list
+    """
     routexml = etree.fromstring(rtx)
 
     lats = []
@@ -72,6 +116,13 @@ def parsertx(rtx):
 
 
 def parsebvs(bvs):
+    """
+    Parse a bvs file
+    :param bvs:
+    :type bvs: str
+    :return: a list of positions and annotations
+    :rtype: list
+    """
     lats = []
     lons = []
     annots = []
@@ -100,6 +151,13 @@ def parsebvs(bvs):
 
 
 def parsecsv(csv):
+    """
+    Parse a csv file
+    :param csv:
+    :type csv: str
+    :return: a list of positions and annotations
+    :rtype: list
+    """
     lats = []
     lons = []
     annots = []
@@ -117,6 +175,13 @@ def parsecsv(csv):
 
 
 def parseurl(url):
+    """
+    Parse a url
+    :param url:
+    :type url: str
+    :return: a list of positions and annotations
+    :rtype: list
+    """
     lats = []
     lons = []
     annots = []
@@ -134,6 +199,13 @@ def parseurl(url):
 
 
 def annotate(m, annotations):
+    """
+    Add anotations to the plot
+    :param m:
+    :type m: Basemap
+    :param annotations:
+    :type annotations: list
+    """
     for annotation in annotations:
         x, y, = m(annotation[0], annotation[1])
         plt.annotate(s=annotation[2], xy=(x, y),
@@ -154,7 +226,25 @@ def plot(
             endtag=None,
             quality='i'
         ):
+    """
 
+    :param filename:
+    :type filename: str
+    :param currpos:
+    :type currpos: str
+    :param output:
+    :type output: str
+    :param display:
+    :type display: str
+    :param custtitle:
+    :type custtitle: str
+    :param starttag:
+    :type starttag: str
+    :param endtag:
+    :type endtag: str
+    :param quality:
+    :type quality: str
+    """
     annotations = []
 
     if filename[-3:] == 'rtx':
@@ -263,6 +353,17 @@ def plot(
 
 
 def getcardinals(minv, maxv, stepv):
+    """
+    Get lats and longs to mark on map
+    :param minv:
+    :type minv: float
+    :param maxv:
+    :type maxv: float
+    :param stepv:
+    :type stepv: int
+    :return:
+    :rtype: list
+    """
     cardinals = [val for val in range(minv, maxv) if val % stepv == 0]
     if len(cardinals) > 10:
         return [
