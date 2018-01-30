@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5f38bb5087ccfeecb3043f434bfb37e471834d57997a1ec4d953805124ef85b7"
+            "sha256": "9bbfccd80b6827e8e4dbc4a732a2e0b03a45838605a2e52002551cb38b7ffb99"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -230,9 +230,6 @@
         }
     },
     "develop": {
-        "3294f14": {
-            "file": "file:///home/paul/Downloads/basemap-1.1.0.tar.gz"
-        },
         "e1839a8": {
             "editable": true,
             "path": "."

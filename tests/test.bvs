@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="yes" ?>
+<Voyage dir="AROS">
+<TrackInfo version="7.1.0" release="5" voyageId="" trackCode="" shipName="Test"
+callSign="ZZZZ" calmSeaSpeed="15.00" charterPartySpeed="" draft="4.25" beam="16
+.00" length="93.25" rpm="1000.00" slip="10.00" ncrSpeed="16.00" powerRatio="1.00" mdoFuelRate="30.00" ncrFuelRate="28.00" ncrPower="7500.00" mtWave="3.73" mtParam="0.00" mtSync="4.00" mtBroach="3.73" navFrom="1">
+		<Position id="" Type="BR" Date="2017-07-24T09:00:00-00:00" Lat="9.5541" Lon="-79.9454" Navigation="RL" Name="Panama" TimeFix="1" ControlType="SC" ControlValue="17.00" Position="Panama"/>
+		<Position id="" Type="RP" Date="2017-07-24T14:44:00-00:00" Lat="11.1833" Lon="-80.1833" Navigation="RL" TimeFix="1" ControlType="SC" ControlValue="16.09"/>
+		<Position id="" Type="RP" Date="2017-07-24T17:21:00-00:00" Lat="11.8833" Lon="-80.2833" Navigation="RL" TimeFix="1" ControlType="SC" ControlValue="18.81"/>
+		<Position id="" Type="WP" Date="2017-07-25T01:10:30-00:00" Lat="14.2660" Lon="-80.6326" Navigation="RL" Name="SERRANA BANK" Position="SERRANA BANK"/>
+		<Position id="" Type="WP" Date="2017-07-25T07:04:41-00:00" Lat="16.0828" Lon="-80.6928" Navigation="RL" Name="CARIBBEAN SEA" Position="CARIBBEAN SEA"/>
+		<Position id="" Type="WP" Date="2017-07-25T09:50:37-00:00" Lat="16.8731" Lon="-81.1411" Navigation="RL" Name="CARIBBEAN SEA" Position="CARIBBEAN SEA"/>
+		<Position id="" Type="WP" Date="2017-07-26T04:50:43-00:00" Lat="21.7404" Lon="-85.0706" Navigation="RL" Name="TSS CUBA" Position="TSS CUBA"/>
+		<Position id="" Type="WP" Date="2017-07-26T05:46:47-00:00" Lat="22.0286" Lon="-85.0706" Navigation="RL" Name="TSS CUBA" Position="TSS CUBA"/>
+		<Position id="" Type="WP" Date="2017-07-26T07:33:38-00:00" Lat="22.4491" Lon="-84.6766" Navigation="RL" Name="TSS CUBA" Position="TSS CUBA"/>
+		<Position id="" Type="WP" Date="2017-07-26T12:28:21-00:00" Lat="23.2052" Lon="-83.2850" Navigation="RL" Name="BAHIA HONDA" Position="BAHIA HONDA"/>
+		<Position id="" Type="WP" Date="2017-07-26T22:18:52-00:00" Lat="24.5014" Lon="-80.0329" Navigation="RL" Name="STRAITS OF FLORIDA" Position="STRAITS OF FLORIDA"/>
+		<Position id="" Type="WP" Date="2017-07-27T03:48:51-00:00" Lat="26.2753" Lon="-79.4941" Navigation="RL" Name="NORTHWEST PROVINENCE" Position="NORTHWEST PROVINENCE"/>
+		<Position id="" Type="WP" Date="2017-07-27T09:24:43-00:00" Lat="28.1829" Lon="-79.4865" Navigation="RL" Name="NORTH ATLANTIC" Position="NORTH ATLANTIC"/>
+		<Position id="" Type="WP" Date="2017-07-29T07:12:39-00:00" Lat="40.3417" Lon="-69.0083" Navigation="RL"/>
+		<Position id="" Type="WP" Date="2017-07-29T08:47:52-00:00" Lat="40.8167" Lon="-68.9750" Navigation="RL"/>
+		<Position id="" Type="WP" Date="2017-07-29T14:26:32-00:00" Lat="42.3250" Lon="-70.0000" Navigation="RL"/>
+		<Position id="" Type="WP" Date="2017-07-29T16:00:25-00:00" Lat="42.3667" Lon="-70.6417" Navigation="RL"/>
+		<Position id="" Type="WP" Date="2017-07-29T16:37:11-00:00" Lat="42.3615" Lon="-70.8956" Navigation="RL"/>
+		<Position id="" Type="WP" Date="2017-07-29T16:46:50-00:00" Lat="42.3375" Lon="-70.9542" Navigation="RL"/>
+		<Position id="" Type="WP" Date="2017-07-29T16:54:46-00:00" Lat="42.3448" Lon="-71.0088" Navigation="RL"/>
+		<Position id="" Type="ER" Date="2017-07-29T17:00:00-00:00" Lat="42.3600" Lon="-71.0400" Navigation="RL" Name="BOSTON" PortId="5490" TimeFix="1" Position="BOSTON"/>
+	</TrackInfo>
+</Voyage>

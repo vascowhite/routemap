@@ -93,5 +93,4 @@ ENV/
 .idea
 
 # This project
-*.bvs
-*png
+*.png
