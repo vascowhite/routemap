@@ -28,4 +28,4 @@ requests = "*"
 "urllib3" = "*"
 vincenty = "*"
 six = "*"
-"3294f14" = {file = "file:///home/paul/Downloads/basemap-1.1.0.tar.gz"}
+basemap = {ref = "master", git = "https://github.com/matplotlib/basemap.git"}
