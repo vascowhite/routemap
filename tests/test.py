@@ -15,7 +15,7 @@ class TestRoutemap(unittest.TestCase):
         :return:
         :rtype:
         """
-        print(Path('.').absolute())
+
         input_file = './tests/test.bvs'
         output_file = './tests/test.png'
 
