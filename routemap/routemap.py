@@ -9,12 +9,15 @@ import requests
 import xml.etree.ElementTree as etree
 
 from mpl_toolkits.basemap import Basemap
+
+import matplotlib
+matplotlib.use('AGG')
+
 import matplotlib.pyplot as plt
 from vincenty import vincenty
 
 KM_IN_NM = 1.852
 GOOGLE_API_KEY = 'AIzaSyDKBY8Zhf9Lk-8ZUb1YIFtNJUCvrfvsrTs'
-
 
 def loadfile(filename):
     """
