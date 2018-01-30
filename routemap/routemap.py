@@ -9,9 +9,12 @@ import requests
 import xml.etree.ElementTree as etree
 
 from mpl_toolkits.basemap import Basemap
-
 import matplotlib
-matplotlib.use('AGG')
+
+try:
+    import TKinter
+except ImportError:
+    matplotlib.use('AGG')
 
 import matplotlib.pyplot as plt
 from vincenty import vincenty
