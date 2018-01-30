@@ -322,7 +322,7 @@ def plot(
         earth.plot(
             lons,
             lats,
-            'b',
+            'r',
             linewidth=1,
             latlon=True,
             label='Distance = ' + '{:,}'.format(
@@ -374,7 +374,7 @@ def getcardinals(minv, maxv, stepv):
     return cardinals
 
 
-def main():
+def routemap():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -455,4 +455,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    routemap()

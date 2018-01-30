@@ -1,0 +1,32 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+"3294f14" = {file = "file:///home/paul/Downloads/basemap-1.1.0.tar.gz"}
+"e1839a8" = {editable = true, path = "."}
+
+
+[packages]
+
+certifi = "*"
+chardet = "*"
+cycler = "*"
+idna = "*"
+matplotlib = "*"
+numpy = "*"
+olefile = "*"
+pillow = "*"
+pyparsing = "*"
+pyproj = "*"
+python-dateutil = "*"
+pytz = "*"
+requests = "*"
+"urllib3" = "*"
+vincenty = "*"
+six = "*"
+basemap = {ref = "master", git = "https://github.com/matplotlib/basemap.git"}
