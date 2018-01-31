@@ -245,8 +245,6 @@ def get_current_position(posstr):
     return currlat, currlon
 
 
-
-
 def plot(
             filename,
             currpos=None,
