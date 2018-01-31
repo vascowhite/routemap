@@ -11,4 +11,4 @@ install:
   - pipenv install --dev --skip-lock
 
 script:
-  - python ./tests/test.py
+  - python setup.py test
