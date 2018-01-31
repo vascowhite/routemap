@@ -12,20 +12,7 @@ name = "pypi"
 
 [packages]
 
-certifi = "*"
-chardet = "*"
-cycler = "*"
-idna = "*"
-matplotlib = "*"
-numpy = "*"
-olefile = "*"
 pillow = "*"
-pyparsing = "*"
-pyproj = "*"
-python-dateutil = "*"
-pytz = "*"
 requests = "*"
-"urllib3" = "*"
 vincenty = "*"
-six = "*"
 basemap = {ref = "master", git = "https://github.com/matplotlib/basemap.git"}

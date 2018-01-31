@@ -222,9 +222,35 @@ def annotate(m, annotations):
             plt.plot(x, y, 'ko')
 
 
+def get_current_position(posstr):
+    """
+    Get the current position
+    The position is passed as a string representing the
+    position or a url. eg:-
+        -c "52 23.5N 36 18.1W"
+        or
+        -c http://some.url.com/positions
+    :return: The position
+    :rtype: tuple
+    """
+    if posstr[:4] == 'http':
+        currpos = requests.get(posstr).json()['position']
+        currlat = float(currpos[0])
+        currlon = float(currpos[1])
+    else:
+        parts = posstr.split(' ')
+        currlat = pos_to_float(parts[0] + ' ' + parts[1])
+        currlon = pos_to_float(parts[2] + ' ' + parts[3])
+
+    return currlat, currlon
+
+
+
+
 def plot(
             filename,
             currpos=None,
+            currposlabel='',
             output=None,
             display=None,
             custtitle=None,
@@ -234,6 +260,8 @@ def plot(
         ):
     """
 
+    :param currposlabel:
+    :type currposlabel:
     :param filename:
     :type filename: str
     :param currpos:
@@ -278,11 +306,10 @@ def plot(
         title = filename[:-4]
 
     if currpos:
-        url = 'http://wx.mqiv.com/position'
-        currpos = requests.get(url).json()['position']
+        currpos = get_current_position(currpos)
         currlat = float(currpos[0])
         currlon = float(currpos[1])
-        annotations.append((currlon, currlat, 'MQIV', 'bo'))
+        annotations.append((currlon, currlat, currposlabel, 'bo'))
 
     totaldistance = calcdistance(lats, lons)
     north = int(max(lats)) + 5
@@ -381,6 +408,9 @@ def getcardinals(minv, maxv, stepv):
 
 
 def routemap():
+    """
+    Parse CLI arguments.
+    """
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -406,8 +436,22 @@ def routemap():
     parser.add_argument(
         '-c',
         '--current',
-        help='Indicate current position.',
-        action='store_true'
+        type=str,
+        help="""
+        Indicate current position.
+        Pass the position with the option as a string representing the position 
+        or a url. eg:-
+        -c "52 23.5N 36 18.1W"
+        or
+        -c http://some.url.com/positions
+        """
+    )
+
+    parser.add_argument(
+        '-cl',
+        '--current_label',
+        type=str,
+        help='A label for the current position'
     )
 
     parser.add_argument(
@@ -451,6 +495,7 @@ def routemap():
     plot(
         args.file,
         currpos=args.current,
+        currposlabel=args.current_label,
         output=args.output,
         display=args.display,
         custtitle=args.title,
