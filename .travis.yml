@@ -1,6 +1,7 @@
 language: python
 python:
   - "3.5"
+  - "3.6"
 
 before_install:
   - sudo apt-get update -qq
@@ -8,7 +9,7 @@ before_install:
   - pip install pipenv
 
 install:
-  - pipenv install --dev --skip-lock
+  - pipenv install --skip-lock
 
 script:
   - python setup.py test
