@@ -22,6 +22,7 @@ from vincenty import vincenty
 KM_IN_NM = 1.852
 GOOGLE_API_KEY = 'AIzaSyDKBY8Zhf9Lk-8ZUb1YIFtNJUCvrfvsrTs'
 
+
 def loadfile(filename):
     """
     Load a file to read positions from

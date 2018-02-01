@@ -1,7 +1,6 @@
 """
-Test that install works
+Tests for routemap package
 """
-from pathlib import Path
 import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
@@ -11,9 +10,6 @@ from requests import Response
 
 
 class TestRoutemap(unittest.TestCase):
-
-    def setUp(self):
-        self.mock_requests = MagicMock()
 
     @patch('matplotlib.pyplot.savefig')
     def test_CanGenerateMap(self, mock_plot):
@@ -44,7 +40,7 @@ class TestRoutemap(unittest.TestCase):
             status_code=200,
             json=MagicMock(return_value={"position": [23.5, -34.25]})
         )
-        test_url = 'http://127.0.0.1/tests/position.json'
+        test_url = 'http://anyurlwilldo.com/position'
         self.assertEqual((23.5, -34.25), routemap.get_current_position(
             test_url))
 

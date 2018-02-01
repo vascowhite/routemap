@@ -4,17 +4,6 @@ Setup as a package
 
 from setuptools import setup
 
-requires = [
-    'pillow',
-    'requests',
-    'vincenty',
-    'basemap'
-]
-
-links = [
-    "https://github.com/matplotlib/basemap.git",
-]
-
 setup(
     name='routemap',
     version='0.1.0',
@@ -29,6 +18,4 @@ setup(
         ]
     },
     test_suite="tests",
-    install_requires=requires,
-    dependency_links=links,
 )
