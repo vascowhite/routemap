@@ -1,21 +1,43 @@
 """
 Setup as a package
 """
-
+import os
 from setuptools import setup
 
+here = os.path.abspath(os.path.dirname(__file__))
+
+requires = [
+    'numpy',
+    'matplotlib',
+    'Pillow',
+    'requests',
+    'vincenty',
+]
+
+packages = ['routemap']
+
+about = {}
+with open(os.path.join(here, 'routemap', '__version__.py')) as f:
+    exec(f.read(), about)
+
+with open('readme.md') as f:
+    readme = f.read()
+
+
 setup(
-    name='routemap',
-    version='0.1.0',
-    author='P White',
-    author_email='paul@vascowhite.co.uk',
-    packages=['routemap'],
-    url='https://github.com/vascowhite/routemap',
-    description='Generate route maps from various route file formats',
+    name=about['__title__'],
+    version=about['__version__'],
+    description=about['__description__'],
+    long_description=readme,
+    author=about['__author__'],
+    author_email=about['__author_email__'],
+    url=about['__url__'],
+    license=about['__license__'],
     entry_points={
         'console_scripts': [
             'routemap = routemap.__main__:main'
         ]
     },
     test_suite="tests",
+    install_requires=requires,
 )
