@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 from vincenty import vincenty
 
 KM_IN_NM = 1.852
-GOOGLE_API_KEY = 'AIzaSyDKBY8Zhf9Lk-8ZUb1YIFtNJUCvrfvsrTs'
 
 
 def loadfile(filename):
@@ -255,7 +254,9 @@ def plot(
             custtitle=None,
             starttag=None,
             endtag=None,
-            quality='i'
+            quality='i',
+            paper='a3',
+            dpi=600,
         ):
     """
 
@@ -377,8 +378,8 @@ def plot(
     plt.savefig(
         outfile,
         bbox_inches='tight',
-        papertype='a3',
-        dpi=600
+        papertype=paper,
+        dpi=dpi
     )
     if display:
         plt.show()
@@ -437,12 +438,12 @@ def routemap():
         '--current',
         type=str,
         help="""
-        Indicate current position.
+        Indicate current position.\n
         Pass the position with the option as a string representing the position 
-        or a url. eg:-
-        -c "52 23.5N 36 18.1W"
-        or
-        -c http://some.url.com/positions
+        or a url. eg:-\n
+        -c "52 23.5N 36 18.1W"\n
+        or\n
+        -c http://some.url.com/positions\n
         """
     )
 
@@ -479,13 +480,31 @@ def routemap():
         '--quality',
         type=str,
         help="""
-        The quality of the rendered map, defaults to -i:-
-        c = crude,
-        l = low,
-        i = intermediate,
-        h=high,
-        f=full.
+        The quality of the rendered map, defaults to -i:-\n
+        c = crude,\n
+        l = low,\n
+        i = intermediate,\n
+        h=high,\n
+        f=full.\n
         Be warned, anything higher than -i takes a long time to render
+        """
+    )
+
+    parser.add_argument(
+        '--dpi',
+        type=int,
+        help="""
+        The DPI of the saved map, defaults to 600 (pretty big)
+        """
+    )
+
+    parser.add_argument(
+        '--paper',
+        type=str,
+        help="""
+        Size of paper saved map is intended to be printed on.\n
+        Accepts standard sizes such as a4, a3, letter etc.\n
+        Default is a3
         """
     )
 
@@ -500,7 +519,9 @@ def routemap():
         custtitle=args.title,
         starttag=args.starttag,
         endtag=args.endtag,
-        quality=args.quality
+        quality=args.quality,
+        paper=args.paper,
+        dpi=args.dpi,
     )
 
 
