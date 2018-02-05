@@ -12,7 +12,7 @@ from mpl_toolkits.basemap import Basemap
 import matplotlib
 
 try:
-    import TKinter
+    import tkinter
 except ImportError:
     matplotlib.use('AGG')
 
