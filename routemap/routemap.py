@@ -1,6 +1,7 @@
 """
 Draw route maps from supplied files.
 """
+import os
 import argparse
 import warnings
 import sys
@@ -8,16 +9,22 @@ import datetime
 import requests
 import xml.etree.ElementTree as etree
 
+from vincenty import vincenty
 from mpl_toolkits.basemap import Basemap
 import matplotlib
 
+tk = True
 try:
     import tkinter
+    if 'DISPLAY' not in os.environ:
+        tk = False
 except ImportError:
+    tk = False
+
+if tk is False:
     matplotlib.use('AGG')
 
 import matplotlib.pyplot as plt
-from vincenty import vincenty
 
 KM_IN_NM = 1.852
 
