@@ -93,4 +93,4 @@ ENV/
 .idea
 
 # This project
-
+tests/*.png
