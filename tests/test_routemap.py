@@ -53,6 +53,7 @@ class TestRoutemap(unittest.TestCase):
         with open('tests/test.json') as jsonf:
             test_positions = json.load(jsonf)
 
+        test_url = 'http://anyurlwilldo.com/positions'
         test_lons = [-79.591, -79.6, -79.613, -79.718, -79.918]
         test_lats = [8.996, 9.005, 9.017, 9.117, 9.209]
         test_annots = [(-79.591, 8.996, 'Start'), (-79.918, 9.209, 'End')]
@@ -62,7 +63,7 @@ class TestRoutemap(unittest.TestCase):
             json=MagicMock(return_value=test_positions)
         )
 
-        lons, lats, annots = routemap.parseurl('http://anyurlwilldo.com/positions')
+        lons, lats, annots = routemap.parseurl(test_url)
 
         self.assertEqual(test_lons, lons)
         self.assertEqual(test_lats, lats)
