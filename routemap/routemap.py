@@ -329,10 +329,8 @@ def plot(
     if quality not in ['c', 'l', 'i', 'h', 'f']:
         quality = 'i'
 
-    """
-    Fixing warnings would be better than suppressing them, but, heyho, this
-    works for now. ;)
-    """
+    # Fixing warnings would be better than suppressing them, but, hey ho, this
+    # works for now. ;)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         earth = Basemap(
