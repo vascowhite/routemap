@@ -27,7 +27,7 @@ if tk is False:
 import matplotlib.pyplot as plt
 
 KM_IN_NM = 1.852
-
+cli = False
 
 def loadfile(filename):
     """
@@ -329,34 +329,39 @@ def plot(
     if quality not in ['c', 'l', 'i', 'h', 'f']:
         quality = 'i'
 
-    earth = Basemap(
-        projection='merc',
-        resolution=quality,
-        lat_0=midlat,
-        lon_0=midlon,
-        # longitude of lower left hand corner of the desired map domain
-        # (degrees).
-        llcrnrlon=west,
-        # latitude of lower left hand corner of the desired map domain
-        # (degrees).
-        llcrnrlat=south,
-        # longitude of upper right hand corner of the desired map domain
-        # (degrees).
-        urcrnrlon=east,
-        # latitude of upper right hand corner of the desired map domain
-        # (degrees).
-        urcrnrlat=north
-    )
-
-    plt.figure(figsize=(16, 10))
-    earth.drawcoastlines(color='0.50', linewidth=0.25)
-    earth.drawparallels(getcardinals(south, north, 10),
-                        labels=[1, 0, 0, 1], color='0.75')
-    earth.drawmeridians(getcardinals(west, east, 10),
-                        labels=[1, 0, 0, 1], color='0.75')
-
+    """
+    Fixing warnings would be better than suppressing them, but, heyho, this
+    works for now. ;)
+    """
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
+        earth = Basemap(
+            projection='merc',
+            resolution=quality,
+            lat_0=midlat,
+            lon_0=midlon,
+            # longitude of lower left hand corner of the desired map domain
+            # (degrees).
+            llcrnrlon=west,
+            # latitude of lower left hand corner of the desired map domain
+            # (degrees).
+            llcrnrlat=south,
+            # longitude of upper right hand corner of the desired map domain
+            # (degrees).
+            urcrnrlon=east,
+            # latitude of upper right hand corner of the desired map domain
+            # (degrees).
+            urcrnrlat=north
+        )
+
+        plt.figure(figsize=(16, 10))
+        earth.drawcoastlines(color='0.50', linewidth=0.25)
+        earth.drawparallels(getcardinals(south, north, 10),
+                            labels=[1, 0, 0, 1], color='0.75')
+        earth.drawmeridians(getcardinals(west, east, 10),
+                        labels=[1, 0, 0, 1], color='0.75')
+
+
         # earth.shadedrelief()
         earth.fillcontinents(color='0.95')
         earth.plot(
@@ -370,26 +375,28 @@ def plot(
                 ) + ' NM'
         )
 
-    annotate(earth, annotations)
+        annotate(earth, annotations)
 
-    plt.subplot(1, 1, 1)
-    plt.legend(loc='best', frameon=True)
-    plt.title(title)
+        plt.subplot(1, 1, 1)
+        plt.legend(loc='best', frameon=True)
+        plt.title(title)
 
-    if output:
-        outfile = output
-    else:
-        outfile = filename[:-4] + '.png'
+        if output:
+            outfile = output
+        else:
+            outfile = filename[:-4] + '.png'
 
-    sys.stdout.write('Saved image to ' + outfile + '\n')
-    plt.savefig(
-        outfile,
-        bbox_inches='tight',
-        papertype=paper,
-        dpi=dpi
-    )
-    if display:
-        plt.show()
+        if cli:
+            sys.stdout.write('Saved image to ' + outfile + '\n')
+
+        plt.savefig(
+            outfile,
+            bbox_inches='tight',
+            papertype=paper,
+            dpi=dpi
+        )
+        if display:
+            plt.show()
 
 
 def getcardinals(minv, maxv, stepv):
@@ -533,4 +540,5 @@ def routemap():
 
 
 if __name__ == '__main__':
+    cli = True
     routemap()

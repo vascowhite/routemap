@@ -8,4 +8,5 @@ def main():
     """
     Get the entry point
     """
+    routemap.cli = True
     routemap.routemap()
