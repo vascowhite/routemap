@@ -359,8 +359,7 @@ def plot(
         earth.drawparallels(getcardinals(south, north, 10),
                             labels=[1, 0, 0, 1], color='0.75')
         earth.drawmeridians(getcardinals(west, east, 10),
-                        labels=[1, 0, 0, 1], color='0.75')
-
+                            labels=[1, 0, 0, 1], color='0.75')
 
         # earth.shadedrelief()
         earth.fillcontinents(color='0.95')
