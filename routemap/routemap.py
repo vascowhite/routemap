@@ -255,7 +255,7 @@ def get_current_position(posstr):
 def plot(
             filename,
             currpos=None,
-            currposlabel='',
+            currposlabel='Current Position',
             output=None,
             display=None,
             custtitle=None,
