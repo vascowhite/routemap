@@ -252,6 +252,29 @@ def get_current_position(posstr):
     return currlat, currlon
 
 
+def get_padding(north, south, west, east, padding=10):
+    """
+    Calculate a reasonable amount of padding for the map
+    :param north:
+    :type north:
+    :param south:
+    :type south:
+    :param west:
+    :type west:
+    :param east:
+    :type east:
+    :param padding:
+    :type padding:
+    :return: The amount of padding to apply
+    :rtype: int
+    """
+    padding /= 100
+    dlat = abs(north - south)
+    dlon = abs(east - west)
+
+    return round(dlat * padding), round(dlon * padding)
+
+
 def plot(
             filename,
             currpos=None,
@@ -319,10 +342,17 @@ def plot(
         annotations.append((currlon, currlat, currposlabel, 'bo'))
 
     totaldistance = calcdistance(lats, lons)
-    north = int(max(lats)) + 5
-    south = int(min(lats)) - 5
-    west = int(min(lons)) - 5
-    east = int(max(lons)) + 5
+    north = int(max(lats))
+    south = int(min(lats))
+    west = int(min(lons))
+    east = int(max(lons))
+
+    lat_pad, lon_pad = get_padding(north, south, west, east)
+    north += lat_pad
+    south -= lat_pad
+    west -= lon_pad
+    east += lon_pad
+
     midlat = (north + south) // 2
     midlon = (west + east) // 2
 

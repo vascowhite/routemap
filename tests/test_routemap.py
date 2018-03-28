@@ -69,6 +69,20 @@ class TestRoutemap(unittest.TestCase):
         self.assertEqual(test_lats, lats)
         self.assertEqual(test_annots, annots)
 
+    def test_can_get_padding(self):
+
+        positions = [
+            (0, 0, 0, 0, (0, 0)),
+            (10, 10, 10, 10, (0, 0)),
+            (40, -10, 40, -10, (5, 5)),
+            (45, -45, 45, -45, (9, 9)),
+            (90, -90, 180, -180, (18, 36)),
+        ]
+
+        for position in positions:
+            test_n, test_s, test_w, test_e, test_padding = position
+            self.assertEqual(routemap.get_padding(test_n, test_s, test_w, test_e), test_padding)
+
 
 if __name__ == '__main__':
     unittest.main()
