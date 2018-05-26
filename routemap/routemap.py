@@ -3,6 +3,7 @@ Draw route maps from supplied files.
 """
 import os
 import argparse
+import math
 import warnings
 import sys
 import datetime
@@ -10,12 +11,14 @@ import requests
 import xml.etree.ElementTree as etree
 
 from vincenty import vincenty
+from geographiclib.geodesic import Geodesic, Constants
 from mpl_toolkits.basemap import Basemap
 import matplotlib
 
 tk = True
 try:
     import tkinter
+
     if 'DISPLAY' not in os.environ:
         tk = False
 except ImportError:
@@ -28,6 +31,7 @@ import matplotlib.pyplot as plt
 
 KM_IN_NM = 1.852
 cli = False
+
 
 def loadfile(filename):
     """
@@ -121,11 +125,34 @@ def parsertx(rtx):
                     lat = property.get('value')
                 elif property.get('name') == 'Longitude':
                     lon = property.get('value')
- 
+
             lats.append(pos_to_float(lat))
             lons.append(pos_to_float(lon))
 
     return [lons, lats, annots]
+
+
+def get_gc_positions(start, end):
+    positions = []
+    spacing = 100000  # Positions 100km apart
+    geoid = Geodesic(Constants.WGS84_a, Constants.WGS84_f)
+    gc = geoid.InverseLine(
+            start[0], start[1],
+            end[0], end[1]
+    )
+
+    n = math.ceil(gc.s13 / spacing)
+
+    for i in range(n + 1):
+        s = min(spacing * i, gc.s13)
+        result = gc.Position(s, Geodesic.STANDARD | Geodesic.LONG_UNROLL)
+        position = {
+            'Lat': result['lat2'],
+            'Lon': result['lon2']
+        }
+        positions.append(position)
+
+    return positions
 
 
 def parsebvs(bvs):
@@ -141,14 +168,26 @@ def parsebvs(bvs):
     annots = []
 
     xml = etree.fromstring(bvs).find('TrackInfo')
-    for position in xml.findall('Position'):
-        lats.append(float(position.get('Lat')))
-        lons.append(float(position.get('Lon')))
+    positions = xml.findall('Position')
+    for i, position in enumerate(positions):
+        if position.get('Navigation') == 'GC':
+            for gc_pos in get_gc_positions(
+                    (float(position.get('Lat')), float(position.get('Lon'))),
+                    (
+                            float(positions[i + 1].get('Lat')),
+                            float(positions[i + 1].get('Lon'))
+                    ),
+            ):
+                lats.append(gc_pos['Lat'])
+                lons.append(gc_pos['Lon'])
+        else:
+            lats.append(float(position.get('Lat')))
+            lons.append(float(position.get('Lon')))
 
         if position.get('Type') in ['BR', 'ER']:
             name = position.get('Name').title()
             calldate = datetime.datetime.strptime(position.get(
-                'Date'), '%Y-%m-%dT%H:%M:%S-00:00').strftime('%d %b')
+                    'Date'), '%Y-%m-%dT%H:%M:%S-00:00').strftime('%d %b')
             if name[-4:].lower() == 'drop':
                 name = name[:-5]
 
@@ -253,18 +292,18 @@ def get_current_position(posstr):
 
 
 def plot(
-            filename,
-            currpos=None,
-            currposlabel='Current Position',
-            output=None,
-            display=None,
-            custtitle=None,
-            starttag=None,
-            endtag=None,
-            quality='i',
-            paper='a3',
-            dpi=600,
-        ):
+        filename,
+        currpos=None,
+        currposlabel='Current Position',
+        output=None,
+        display=None,
+        custtitle=None,
+        starttag=None,
+        endtag=None,
+        quality='i',
+        paper='a3',
+        dpi=600,
+):
     """
 
     :param currposlabel:
@@ -334,22 +373,22 @@ def plot(
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         earth = Basemap(
-            projection='merc',
-            resolution=quality,
-            lat_0=midlat,
-            lon_0=midlon,
-            # longitude of lower left hand corner of the desired map domain
-            # (degrees).
-            llcrnrlon=west,
-            # latitude of lower left hand corner of the desired map domain
-            # (degrees).
-            llcrnrlat=south,
-            # longitude of upper right hand corner of the desired map domain
-            # (degrees).
-            urcrnrlon=east,
-            # latitude of upper right hand corner of the desired map domain
-            # (degrees).
-            urcrnrlat=north
+                projection='merc',
+                resolution=quality,
+                lat_0=midlat,
+                lon_0=midlon,
+                # longitude of lower left hand corner of the desired map domain
+                # (degrees).
+                llcrnrlon=west,
+                # latitude of lower left hand corner of the desired map domain
+                # (degrees).
+                llcrnrlat=south,
+                # longitude of upper right hand corner of the desired map domain
+                # (degrees).
+                urcrnrlon=east,
+                # latitude of upper right hand corner of the desired map domain
+                # (degrees).
+                urcrnrlat=north
         )
 
         plt.figure(figsize=(16, 10))
@@ -362,13 +401,13 @@ def plot(
         # earth.shadedrelief()
         earth.fillcontinents(color='0.95')
         earth.plot(
-            lons,
-            lats,
-            'r',
-            linewidth=1,
-            latlon=True,
-            label='Distance = ' + '{:,}'.format(
-                    int(totaldistance / KM_IN_NM)
+                lons,
+                lats,
+                'r',
+                linewidth=1,
+                latlon=True,
+                label='Distance = ' + '{:,}'.format(
+                        int(totaldistance / KM_IN_NM)
                 ) + ' NM'
         )
 
@@ -387,10 +426,10 @@ def plot(
             sys.stdout.write('Saved image to ' + outfile + '\n')
 
         plt.savefig(
-            outfile,
-            bbox_inches='tight',
-            papertype=paper,
-            dpi=dpi
+                outfile,
+                bbox_inches='tight',
+                papertype=paper,
+                dpi=dpi
         )
         if display:
             plt.show()
@@ -425,30 +464,30 @@ def routemap():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        'file',
-        type=str,
-        help='Input file. rtx or bvs files accepted.'
+            'file',
+            type=str,
+            help='Input file. rtx or bvs files accepted.'
     )
 
     parser.add_argument(
-        '-t',
-        '--title',
-        type=str,
-        help='A custom title for the chart if the generated one is crap'
+            '-t',
+            '--title',
+            type=str,
+            help='A custom title for the chart if the generated one is crap'
     )
 
     parser.add_argument(
-        '-o',
-        '--output',
-        type=str,
-        help='Output file. Defaults to current directory'
+            '-o',
+            '--output',
+            type=str,
+            help='Output file. Defaults to current directory'
     )
 
     parser.add_argument(
-        '-c',
-        '--current',
-        type=str,
-        help="""
+            '-c',
+            '--current',
+            type=str,
+            help="""
         Indicate current position.\n
         Pass the position with the option as a string representing the position 
         or a url. eg:-\n
@@ -459,38 +498,38 @@ def routemap():
     )
 
     parser.add_argument(
-        '-cl',
-        '--current_label',
-        type=str,
-        help='A label for the current position'
+            '-cl',
+            '--current_label',
+            type=str,
+            help='A label for the current position'
     )
 
     parser.add_argument(
-        '-d',
-        '--display',
-        help='Display image in window. Defaults to no image displayed',
-        action='store_true'
+            '-d',
+            '--display',
+            help='Display image in window. Defaults to no image displayed',
+            action='store_true'
     )
 
     parser.add_argument(
-        '-st',
-        '--starttag',
-        type=str,
-        help='A custom tag for the first position'
+            '-st',
+            '--starttag',
+            type=str,
+            help='A custom tag for the first position'
     )
 
     parser.add_argument(
-        '-et',
-        '--endtag',
-        type=str,
-        help='A custom tag for the last position'
+            '-et',
+            '--endtag',
+            type=str,
+            help='A custom tag for the last position'
     )
 
     parser.add_argument(
-        '-q',
-        '--quality',
-        type=str,
-        help="""
+            '-q',
+            '--quality',
+            type=str,
+            help="""
         The quality of the rendered map, defaults to -i:-\n
         c = crude,\n
         l = low,\n
@@ -502,17 +541,17 @@ def routemap():
     )
 
     parser.add_argument(
-        '--dpi',
-        type=int,
-        help="""
+            '--dpi',
+            type=int,
+            help="""
         The DPI of the saved map, defaults to 600 (pretty big)
         """
     )
 
     parser.add_argument(
-        '--paper',
-        type=str,
-        help="""
+            '--paper',
+            type=str,
+            help="""
         Size of paper saved map is intended to be printed on.\n
         Accepts standard sizes such as a4, a3, letter etc.\n
         Default is a3
@@ -522,17 +561,17 @@ def routemap():
     args = parser.parse_args()
 
     plot(
-        args.file,
-        currpos=args.current,
-        currposlabel=args.current_label,
-        output=args.output,
-        display=args.display,
-        custtitle=args.title,
-        starttag=args.starttag,
-        endtag=args.endtag,
-        quality=args.quality,
-        paper=args.paper,
-        dpi=args.dpi,
+            args.file,
+            currpos=args.current,
+            currposlabel=args.current_label,
+            output=args.output,
+            display=args.display,
+            custtitle=args.title,
+            starttag=args.starttag,
+            endtag=args.endtag,
+            quality=args.quality,
+            paper=args.paper,
+            dpi=args.dpi,
     )
 
 

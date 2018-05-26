@@ -12,6 +12,7 @@ requires = [
     'Pillow',
     'requests',
     'vincenty',
+    'geographiclib'
 ]
 
 packages = ['routemap']

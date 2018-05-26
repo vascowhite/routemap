@@ -94,3 +94,6 @@ ENV/
 
 # This project
 tests/*.png
+
+# VS Code
+.vscode/
