@@ -40,5 +40,6 @@ setup(
         ]
     },
     test_suite="tests",
+    package_dir={'routemap': 'routemap'},
     install_requires=requires,
 )
