@@ -15,6 +15,8 @@ from geographiclib.geodesic import Geodesic, Constants
 from mpl_toolkits.basemap import Basemap
 import matplotlib
 
+from routemap import __version__ as version
+
 tk = True
 try:
     import tkinter
@@ -588,6 +590,13 @@ def routemap():
         """
     )
 
+    parser.add_argument(
+            '--version',
+            action='version',
+            version=get_version(),
+            help='Print the version and exit'
+    )
+
     args = parser.parse_args()
 
     plot(
@@ -603,6 +612,10 @@ def routemap():
             paper=args.paper,
             dpi=args.dpi,
     )
+
+
+def get_version():
+    return 'routemap {}'.format(version.__version__)
 
 
 if __name__ == '__main__':
