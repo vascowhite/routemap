@@ -15,4 +15,4 @@ If running headless on a server, then python3-tk is not needed.
 
 Also requires Basemap to be installed manually.
 
-    pip install git+https://github.com/matplotlib/basemap.git#egg=basemappip install git+https://github.com/matplotlib/basemap.git#egg=basemap
+    pip install git+https://github.com/matplotlib/basemap.git#egg=basemap
