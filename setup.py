@@ -21,7 +21,7 @@ about = {}
 with open(os.path.join(here, 'routemap', '__version__.py')) as f:
     exec(f.read(), about)
 
-with open('readme.md') as f:
+with open('readme.rst') as f:
     readme = f.read()
 
 
