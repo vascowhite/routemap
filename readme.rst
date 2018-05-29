@@ -1,11 +1,11 @@
-<img src="https://travis-ci.org/vascowhite/routemap.svg?branch=master"/>
+.. image:: https://travis-ci.org/vascowhite/routemap.svg?branch=master
 
 # Routemap
 
 Generates a nice looking map of a route from various sources. Here is an 
 example.
 
-<img src="https://raw.githubusercontent.com/vascowhite/routemap/master/docs/example.png" />
+.. image:: https://raw.githubusercontent.com/vascowhite/routemap/master/docs/example.png
 
 Requires libgeos and tkinter to be installed. On Debian:
 
