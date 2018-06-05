@@ -135,6 +135,19 @@ def parsertx(rtx):
 
 
 def get_gc_positions(start, end):
+    """
+    Get positions along a Great Circle to enable plotting.
+    I couldn't do this with Basemap as we have to instantiate
+    first and we don't know the map boundaries until we have the GC
+    positions.
+
+    :param start: The start position
+    :type start: tuple
+    :param end: The end position
+    :type end: tuple
+    :return: list of positions
+    :rtype: list of dict
+    """
     positions = []
     spacing = 100000  # Positions 100km apart
     geoid = Geodesic(Constants.WGS84_a, Constants.WGS84_f)
